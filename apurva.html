@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#120c3d;--violet:#6c3bff;--pink:#ff4f8b;--sun:#ffc93c;--mint:#2fe0a1;--sky:#f4f1ff;--text:#3a3560}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',Arial,sans-serif;color:var(--text);line-height:1.6;background:#fff;overflow-x:hidden}
+h1,h2,h3{font-family:'Bricolage Grotesque',Arial,sans-serif;color:var(--navy);line-height:1.1}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+
+/* Nav */
+header{position:fixed;top:14px;left:0;right:0;z-index:20}
+nav{max-width:1000px;margin:0 auto;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-radius:999px;display:flex;align-items:center;justify-content:space-between;padding:10px 12px 10px 24px;box-shadow:0 8px 30px rgba(40,20,120,.12);width:calc(100% - 28px)}
+.logo{font-family:'Bricolage Grotesque',Arial,sans-serif;font-weight:800;font-size:1.3rem;color:var(--navy)}
+.logo i{font-style:normal;background:linear-gradient(90deg,var(--violet),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+nav ul{display:flex;gap:26px;list-style:none;align-items:center}
+nav ul a{font-weight:500}
+nav ul a:hover{color:var(--violet)}
+.btn{display:inline-block;border:0;cursor:pointer;font:700 1rem 'DM Sans',Arial,sans-serif;padding:13px 28px;border-radius:999px;background:linear-gradient(135deg,var(--violet),var(--pink));color:#fff;box-shadow:0 10px 24px rgba(108,59,255,.35);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(108,59,255,.45)}
+.btn.sm{padding:10px 22px}
+.btn.light{background:#fff;color:var(--navy);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+.btn.line{background:transparent;color:var(--navy);box-shadow:inset 0 0 0 2px var(--navy)}
+
+/* Hero */
+.hero{position:relative;padding:150px 0 90px;background:radial-gradient(circle at 15% 20%,#ffe0ee 0,transparent 40%),radial-gradient(circle at 85% 10%,#dcd2ff 0,transparent 45%),radial-gradient(circle at 70% 90%,#d2fbe9 0,transparent 40%),#fff}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.badge{display:inline-block;background:#fff;border-radius:999px;padding:7px 16px;font-weight:700;font-size:.9rem;color:var(--violet);box-shadow:0 4px 14px rgba(108,59,255,.15);margin-bottom:22px}
+.hero h1{font-size:clamp(2.6rem,6.4vw,4.8rem);font-weight:800;letter-spacing:-.02em}
+.hero h1 span{display:inline-block;background:linear-gradient(90deg,var(--violet),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:1.15rem;margin:22px 0 32px;max-width:480px}
+.actions{display:flex;gap:14px;flex-wrap:wrap}
+
+.stage{position:relative;height:420px}
+.blob{position:absolute;inset:40px 30px;background:linear-gradient(135deg,var(--violet),var(--pink));border-radius:42% 58% 55% 45%/50% 45% 55% 50%;opacity:.95}
+.fc{position:absolute;background:#fff;border-radius:20px;padding:16px 18px;width:250px;box-shadow:0 20px 45px rgba(18,12,61,.25);animation:bob 5s ease-in-out infinite}
+.fc b{display:block;color:var(--navy)}
+.fc small{color:#7a74a3}
+.fc .ic{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;margin-right:10px;vertical-align:middle;font-size:1.1rem}
+.f1{top:10px;left:0}
+.f2{top:150px;right:-6px;animation-delay:-1.6s}
+.f3{bottom:10px;left:30px;animation-delay:-3.2s}
+@keyframes bob{50%{transform:translateY(-12px)}}
+
+/* Marquee */
+.marq{background:var(--navy);color:#fff;overflow:hidden;padding:16px 0;transform:rotate(-1deg);margin:-10px -10px 0}
+.track{display:flex;gap:44px;width:max-content;animation:slide 28s linear infinite;font-family:'Bricolage Grotesque',Arial,sans-serif;font-weight:600;font-size:1.25rem}
+.track span:nth-child(even){color:var(--sun)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* Stats */
+.stats{padding:60px 0 10px}
+.stats .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:18px;text-align:center}
+.stat b{font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:2.8rem;color:var(--violet);display:block}
+
+/* Sections */
+section{padding:80px 0}
+.head{text-align:center;max-width:580px;margin:0 auto 46px}
+.head h2{font-size:clamp(2rem,4.5vw,3rem);margin-bottom:12px}
+
+/* Bento features */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.tile{border-radius:26px;padding:28px;transition:transform .25s;position:relative;overflow:hidden}
+.tile:hover{transform:translateY(-6px) rotate(-.6deg)}
+.tile h3{font-size:1.4rem;margin:12px 0 6px}
+.tile .em{font-size:2.2rem}
+.t1{grid-column:span 2;background:#ffe3ef}
+.t2{background:#fff3c9}
+.t3{background:#d5faea}
+.t4{background:#e1d9ff}
+.t5{grid-column:span 2;background:var(--navy);color:#cfc9f5}
+.t5 h3{color:#fff}
+
+/* Events */
+.events{background:var(--sky)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px}
+.ev{background:#fff;border-radius:26px;padding:22px;display:flex;gap:18px;box-shadow:0 12px 30px rgba(60,40,160,.1);transition:transform .25s}
+.ev:hover{transform:translateY(-6px)}
+.day{min-width:76px;height:84px;border-radius:20px;display:grid;place-items:center;text-align:center;font-family:'Bricolage Grotesque',Arial,sans-serif;font-weight:800;color:var(--navy);line-height:1}
+.day small{display:block;font-size:.85rem;font-weight:600;margin-top:4px}
+.day strong{font-size:2rem}
+.ev h3{font-size:1.2rem;margin-bottom:4px}
+.ev p{font-size:.95rem;color:#7a74a3}
+.ev a{color:var(--violet);font-weight:700;display:inline-block;margin-top:8px}
+
+/* Testimonials */
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px}
+.q{border:2px solid var(--navy);border-radius:26px;padding:26px;box-shadow:7px 7px 0 var(--navy);background:#fff}
+.q:nth-child(2){box-shadow:7px 7px 0 var(--pink)}
+.q:nth-child(3){box-shadow:7px 7px 0 var(--mint)}
+.q p{margin-bottom:16px;font-size:1.05rem}
+.who{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--navy)}
+.av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700}
+
+/* CTA */
+.cta{padding:40px 0 90px}
+.cta .box{background:linear-gradient(135deg,var(--violet),var(--pink));border-radius:36px;padding:56px 30px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.cta h2{color:#fff;font-size:clamp(2rem,5vw,3.2rem);margin-bottom:10px}
+.cta p{margin-bottom:28px;opacity:.92}
+.mail{display:flex;gap:10px;max-width:480px;margin:0 auto;background:#fff;border-radius:999px;padding:7px}
+.mail input{flex:1;min-width:0;border:0;padding:0 18px;font:1rem 'DM Sans',Arial,sans-serif;background:transparent;color:var(--navy)}
+.mail input:focus-visible{outline:none}
+#msg{margin-top:14px;font-weight:700;min-height:1.5em}
+
+footer{background:var(--navy);color:#a9a3d6;text-align:center;padding:30px 0;font-size:.95rem}
+
+@media(max-width:860px){
+  .hero{padding-top:120px}
+  .hero .wrap{grid-template-columns:1fr}
+  .stage{height:380px}
+  .bento{grid-template-columns:1fr 1fr}
+  nav ul li:nth-child(-n+3){display:none}
+}
+@media(max-width:520px){
+  .bento{grid-template-columns:1fr}
+  .t1,.t5{grid-column:auto}
+  .mail{flex-direction:column;border-radius:26px}
+  .mail input{padding:12px 16px}
+  .fc{width:225px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+[hidden]{display:none!important}
+.btn.full{width:100%}
+/* Auth */
+.auth{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
+.auth-side{background:linear-gradient(135deg,var(--violet),var(--pink));color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:space-between}
+.auth-side .logo,.side .logo{color:#fff}
+.auth-side .logo i,.side .logo i{background:none;color:var(--sun)}
+.auth-side h2{color:#fff;font-size:clamp(2rem,3.6vw,3rem);margin-bottom:20px}
+.auth-side ul{list-style:none;display:grid;gap:12px;font-size:1.05rem}
+.auth-main{display:grid;place-items:center;padding:40px 22px;background:var(--sky)}
+.acard{background:#fff;border-radius:28px;padding:36px;width:100%;max-width:430px;box-shadow:0 20px 50px rgba(60,40,160,.14)}
+.acard h1{font-size:2rem;margin-bottom:6px}
+.acard form{display:grid;gap:14px;margin-top:22px}
+.acard label{font-weight:700;font-size:.9rem;color:var(--navy);display:block}
+.acard input,.acard select{width:100%;padding:13px 15px;border:2px solid #e0dbf5;border-radius:14px;font:1rem 'DM Sans',Arial,sans-serif;margin-top:5px;background:#fff;color:var(--navy)}
+.acard input:focus,.acard select:focus{border-color:var(--violet);outline:none}
+.err{color:#d6336c;font-weight:700;min-height:1.4em;font-size:.95rem}
+.swap{margin-top:18px;text-align:center}
+.swap a{color:var(--violet);font-weight:700}
+/* Dashboard */
+.dash{display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:var(--sky)}
+.side{background:var(--navy);padding:26px 18px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+.side .logo{padding:0 10px 22px}
+.side button{all:unset;box-sizing:border-box;cursor:pointer;color:#bdb7e6;padding:12px 14px;border-radius:14px;font-weight:700;display:flex;gap:12px;align-items:center;white-space:nowrap}
+.side button:hover{background:#221a5c;color:#fff}
+.side button.on{background:linear-gradient(135deg,var(--violet),var(--pink));color:#fff}
+.side button:focus-visible{outline:3px solid var(--sun)}
+.side .out{margin-top:auto}
+.dmain{padding:32px;max-width:1000px;width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;gap:14px}
+.top h1{font-size:2rem}
+.me{display:flex;align-items:center;gap:10px;background:#fff;padding:6px 16px 6px 6px;border-radius:999px;font-weight:700;color:var(--navy);box-shadow:0 6px 18px rgba(60,40,160,.1)}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:26px}
+.sc{border-radius:24px;padding:22px;color:var(--text)}
+.sc b{font-family:'Bricolage Grotesque',Arial,sans-serif;font-size:2.6rem;color:var(--navy);display:block;line-height:1;margin-bottom:6px}
+.panel{background:#fff;border-radius:26px;padding:24px;box-shadow:0 10px 26px rgba(60,40,160,.08);margin-bottom:22px}
+.panel h3{font-size:1.3rem;margin-bottom:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.two .panel{margin-bottom:0}
+.two{margin-bottom:22px}
+.row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #eeeaff}
+.row:last-child{border-bottom:0}
+.row .day{min-width:60px;height:60px;border-radius:16px;font-size:1.6rem}
+.row .day strong{font-size:1.5rem}
+.row .info{flex:1;min-width:0}
+.row .info b{display:block;color:var(--navy)}
+.row .info small{color:#7a74a3}
+.tg{border:2px solid var(--violet);background:#fff;color:var(--violet);border-radius:999px;padding:8px 18px;font:700 .9rem 'DM Sans',Arial,sans-serif;cursor:pointer;white-space:nowrap}
+.tg.on{background:var(--violet);color:#fff}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.cc{border-radius:24px;padding:24px;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.cc .em{font-size:2.2rem}
+.cc b{color:var(--navy);font-size:1.15rem}
+.cc small{color:#5d5780;margin-bottom:10px}
+.empty{color:#7a74a3;padding:4px 0}
+.empty .tg{margin-left:6px}
+@media(max-width:860px){
+  .auth{grid-template-columns:1fr}
+  .auth-side{padding:28px;gap:22px}
+  .auth-side ul{display:none}
+  .dash{grid-template-columns:1fr}
+  .side{height:auto;flex-direction:row;overflow-x:auto;padding:12px;z-index:5;align-items:center}
+  .side .logo{display:none}
+  .side .out{margin-top:0;margin-left:auto}
+  .dmain{padding:20px}
+  .two{grid-template-columns:1fr}
+  .two .panel{margin-bottom:0}
+}
+</style>
+</head>
+<body>
+
+<div id="view-home">
+<header>
+  <nav>
+    <a href="#" class="logo">Campus<i>Connect</i></a>
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#stories">Stories</a></li>
+      <li><a href="#login" id="navLogin">Login</a></li>
+      <li><a href="#signup" class="btn sm" id="navJoin">Join now</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <span class="badge">🎓 Made for college students</span>
+      <h1>College life, <span>connected.</span></h1>
+      <p>Events, clubs, notes and seniors who actually help. Sab kuch ek hi jagah, ek hi app mein.</p>
+      <div class="actions">
+        <a href="#signup" class="btn">Join for free</a>
+        <a href="#events" class="btn line">Explore events</a>
+      </div>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <div class="blob"></div>
+      <div class="fc f1"><span class="ic" style="background:#fff3c9">🚀</span><b style="display:inline">Hackathon 2026</b><br><small>Sat, 10 AM · Main Auditorium</small></div>
+      <div class="fc f2"><span class="ic" style="background:#d5faea">📚</span><b style="display:inline">DBMS Unit 3 notes</b><br><small>Shared by Riya · 2nd year</small></div>
+      <div class="fc f3"><span class="ic" style="background:#ffe3ef">📸</span><b style="display:inline">Photography Club</b><br><small>128 members · Photo walk Sunday</small></div>
+    </div>
+  </div>
+</div>
+
+<div class="marq" aria-hidden="true">
+  <div class="track">
+    <span>Coding Club</span><span>Dance Society</span><span>Photography</span><span>Robotics</span><span>Music Band</span><span>Debate</span><span>Cricket</span><span>Entrepreneurship Cell</span>
+    <span>Coding Club</span><span>Dance Society</span><span>Photography</span><span>Robotics</span><span>Music Band</span><span>Debate</span><span>Cricket</span><span>Entrepreneurship Cell</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stat"><b>5,000+</b>Students</div>
+    <div class="stat"><b>120</b>Clubs</div>
+    <div class="stat"><b>300+</b>Events a year</div>
+    <div class="stat"><b>2,500</b>Notes shared</div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="head">
+      <h2>Everything in one feed</h2>
+      <p>Notice boards aur WhatsApp groups mein dhoondhna band. Yahan sab kuch milega.</p>
+    </div>
+    <div class="bento">
+      <div class="tile t1"><div class="em">📅</div><h3>Events that find you</h3><p>Fests, workshops and seminars with reminders, so you never miss what matters.</p></div>
+      <div class="tile t2"><div class="em">👥</div><h3>Clubs</h3><p>Join any club in one tap.</p></div>
+      <div class="tile t3"><div class="em">📚</div><h3>Notes</h3><p>Notes and PYQs by subject.</p></div>
+      <div class="tile t4"><div class="em">💬</div><h3>Chat</h3><p>Talk to batchmates and teams.</p></div>
+      <div class="tile t5"><div class="em">🤝</div><h3>Mentors from your own campus</h3><p>Ask seniors about internships, placements and exam prep. They have been there.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="events" id="events">
+  <div class="wrap">
+    <div class="head">
+      <h2>Happening this month</h2>
+      <p>Register in one click.</p>
+    </div>
+    <div class="grid3">
+      <article class="ev">
+        <div class="day" style="background:#ffe3ef"><div><strong>12</strong><small>Nov</small></div></div>
+        <div><h3>Hackathon 2026</h3><p>10:00 AM · Main Auditorium</p><a href="#signup">Register</a></div>
+      </article>
+      <article class="ev">
+        <div class="day" style="background:#d5faea"><div><strong>18</strong><small>Nov</small></div></div>
+        <div><h3>Resume and Interview Workshop</h3><p>4:00 PM · Seminar Hall B</p><a href="#signup">Register</a></div>
+      </article>
+      <article class="ev">
+        <div class="day" style="background:#fff3c9"><div><strong>25</strong><small>Nov</small></div></div>
+        <div><h3>Open Mic Night</h3><p>6:30 PM · Campus Amphitheatre</p><a href="#signup">Register</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="stories">
+  <div class="wrap">
+    <div class="head">
+      <h2>Students love it</h2>
+    </div>
+    <div class="quotes">
+      <div class="q"><p>I found my robotics team through Campus Connect in the first week of college.</p><div class="who"><span class="av" style="background:var(--violet)">A</span>Aarav, 1st year</div></div>
+      <div class="q"><p>Exam se pehle seniors ke notes mil gaye. Honestly saved my semester.</p><div class="who"><span class="av" style="background:var(--pink)">S</span>Sneha, 2nd year</div></div>
+      <div class="q"><p>Now I never miss a fest. The reminders are a lifesaver.</p><div class="who"><span class="av" style="background:#18b985">R</span>Rohan, 3rd year</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="join">
+  <div class="wrap">
+    <div class="box">
+      <h2>Ready to connect?</h2>
+      <p>Enter your college email and get your campus feed in under a minute.</p>
+      <div class="mail">
+        <input id="email" type="email" placeholder="you@college.edu" aria-label="College email">
+        <button class="btn" id="go" type="button">Join now</button>
+      </div>
+      <div id="msg" role="status"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>© 2026 Campus Connect. Made by students, for students.</footer>
+</div>
+
+<div id="view-auth" hidden>
+  <div class="auth">
+    <aside class="auth-side">
+      <a href="#" class="logo">Campus<i>Connect</i></a>
+      <div>
+        <h2 id="sideH"></h2>
+        <ul><li>📅 Never miss an event</li><li>👥 Join clubs in one tap</li><li>📚 Save notes and PYQs</li></ul>
+      </div>
+      <small>© 2026 Campus Connect</small>
+    </aside>
+    <div class="auth-main">
+      <div class="acard">
+        <h1 id="aTitle"></h1>
+        <p id="aSub"></p>
+        <form id="authForm" novalidate>
+          <div class="su"><label for="fName">Full name</label><input id="fName" type="text" autocomplete="name" placeholder="Your name"></div>
+          <div><label for="fEmail">College email</label><input id="fEmail" type="email" autocomplete="email" placeholder="you@college.edu"></div>
+          <div class="su"><label for="fYear">Year</label><select id="fYear"><option>1st year</option><option>2nd year</option><option>3rd year</option><option>4th year</option></select></div>
+          <div><label for="fPass">Password</label><input id="fPass" type="password" autocomplete="current-password" placeholder="At least 6 characters"></div>
+          <div class="err" id="aErr" role="alert"></div>
+          <button class="btn full" type="submit" id="aBtn"></button>
+        </form>
+        <p class="swap" id="aSwap"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="view-dash" hidden>
+  <div class="dash">
+    <aside class="side">
+      <a href="#" class="logo">Campus<i>Connect</i></a>
+      <button data-tab="overview">🏠 Overview</button>
+      <button data-tab="events">📅 Events</button>
+      <button data-tab="clubs">👥 Clubs</button>
+      <button data-tab="notes">📚 Notes</button>
+      <button class="out" id="logout">🚪 Log out</button>
+    </aside>
+    <main class="dmain">
+      <div class="top">
+        <div><h1 id="hi"></h1><p id="sub"></p></div>
+        <div class="me"><span class="av" id="avatar" style="background:linear-gradient(135deg,var(--violet),var(--pink))"></span><span id="meName"></span></div>
+      </div>
+      <div id="tabbody"></div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var EVENTS = [
+    {id:'e1',d:'12',m:'Nov',t:'Hackathon 2026',w:'10:00 AM · Main Auditorium',c:'#ffe3ef'},
+    {id:'e2',d:'18',m:'Nov',t:'Resume and Interview Workshop',w:'4:00 PM · Seminar Hall B',c:'#d5faea'},
+    {id:'e3',d:'25',m:'Nov',t:'Open Mic Night',w:'6:30 PM · Campus Amphitheatre',c:'#fff3c9'},
+    {id:'e4',d:'02',m:'Dec',t:'Robotics Expo',w:'11:00 AM · Engineering Block',c:'#e1d9ff'}
+  ];
+  var CLUBS = [
+    {id:'c1',n:'Coding Club',e:'💻',m:128,c:'#e1d9ff'},
+    {id:'c2',n:'Dance Society',e:'💃',m:96,c:'#ffe3ef'},
+    {id:'c3',n:'Photography Club',e:'📸',m:74,c:'#fff3c9'},
+    {id:'c4',n:'Robotics Club',e:'🤖',m:61,c:'#d5faea'},
+    {id:'c5',n:'Music Band',e:'🎸',m:52,c:'#ffe3ef'},
+    {id:'c6',n:'Debate Society',e:'🎤',m:44,c:'#e1d9ff'}
+  ];
+  var NOTES = [
+    {id:'n1',e:'📘',t:'DBMS Unit 3',s:'Shared by Riya · 2nd year'},
+    {id:'n2',e:'📗',t:'Data Structures PYQs',s:'Shared by Aman · 3rd year'},
+    {id:'n3',e:'📙',t:'Engineering Maths Formula Sheet',s:'Shared by Neha · 1st year'},
+    {id:'n4',e:'📕',t:'Operating Systems Short Notes',s:'Shared by Karan · 3rd year'}
+  ];
+  var NOTICES = ['Library will stay open till 10 PM during exams.','Hackathon registrations close on 10 Nov.','Mid-sem timetable has been published.'];
+  var TITLES = {
+    overview: 'Here is what is happening on campus today.',
+    events: 'Register for events you want to attend.',
+    clubs: 'Find your people. Join clubs you like.',
+    notes: 'Save notes and previous year papers.'
+  };
+
+  function get(k, f) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : f; } catch (e) { return f; } }
+  function put(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+
+  var tab = 'overview', mode = 'login', pending = '', cur = null, data = null;
+
+  /* ---------- Router ---------- */
+  function show(id) {
+    ['home', 'auth', 'dash'].forEach(function (v) { $('#view-' + v).hidden = (v !== id); });
+  }
+  var lastView = '';
+  function route() {
+    var h = location.hash.replace('#', '');
+    var session = get('cc_session', null);
+    if (h === 'dashboard' && !session) { location.hash = 'login'; return; }
+    if ((h === 'login' || h === 'signup') && session) { location.hash = 'dashboard'; return; }
+    var view = h === 'dashboard' ? 'dash' : (h === 'login' || h === 'signup') ? 'auth' : 'home';
+    show(view);
+    if (view !== lastView) window.scrollTo(0, 0);
+    lastView = view;
+    if (view === 'auth') setAuth(h);
+    else if (view === 'dash') openDash(session);
+    else {
+      $('#navLogin').parentNode.hidden = !!session;
+      $('#navJoin').textContent = session ? 'Dashboard' : 'Join now';
+      $('#navJoin').href = session ? '#dashboard' : '#signup';
+      var el = h && document.getElementById(h);
+      if (el) el.scrollIntoView();
+    }
+  }
+
+  /* ---------- Login / Signup ---------- */
+  function setAuth(m) {
+    mode = m;
+    var su = m === 'signup';
+    document.querySelectorAll('.su').forEach(function (e) { e.hidden = !su; });
+    $('#aTitle').textContent = su ? 'Create your account' : 'Welcome back';
+    $('#aSub').textContent = su ? 'Join your campus in under a minute.' : 'Log in to see your campus feed.';
+    $('#sideH').textContent = su ? 'Your campus is waiting for you.' : 'Good to see you again.';
+    $('#aBtn').textContent = su ? 'Create account' : 'Log in';
+    $('#aSwap').innerHTML = su ? 'Already have an account? <a href="#login">Log in</a>' : 'New here? <a href="#signup">Create an account</a>';
+    $('#aErr').textContent = '';
+    $('#fPass').value = '';
+    $('#fPass').autocomplete = su ? 'new-password' : 'current-password';
+    if (pending) { $('#fEmail').value = pending; pending = ''; }
+  }
+
+  $('#authForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = $('#aErr'), em = $('#fEmail').value.trim().toLowerCase(), pw = $('#fPass').value;
+    var users = get('cc_users', {});
+    if (em.indexOf('@') < 1 || em.indexOf('.') < 0) { err.textContent = 'Please enter a valid email address.'; return; }
+    if (mode === 'signup') {
+      var name = $('#fName').value.trim();
+      if (!name) { err.textContent = 'Please enter your name.'; return; }
+      if (pw.length < 6) { err.textContent = 'Password must be at least 6 characters.'; return; }
+      if (users[em]) { err.textContent = 'This email is already registered. Please log in.'; return; }
+      users[em] = { name: name, year: $('#fYear').value, pw: pw };
+      put('cc_users', users);
+    } else {
+      if (!users[em] || users[em].pw !== pw) { err.textContent = 'Incorrect email or password.'; return; }
+    }
+    put('cc_session', em);
+    location.hash = 'dashboard';
+  });
+
+  /* ---------- Dashboard ---------- */
+  function openDash(em) {
+    var users = get('cc_users', {});
+    cur = users[em];
+    if (!cur) { localStorage.removeItem('cc_session'); location.hash = 'login'; return; }
+    data = get('cc_data_' + em, { events: [], clubs: [], notes: [] });
+    var first = cur.name.split(' ')[0];
+    $('#hi').textContent = 'Hi, ' + first + ' 👋';
+    $('#meName').textContent = first + ' · ' + cur.year;
+    $('#avatar').textContent = first.charAt(0).toUpperCase();
+    render();
+  }
+
+  function evRow(e) {
+    var on = data.events.indexOf(e.id) > -1;
+    return '<div class="row"><div class="day" style="background:' + e.c + '"><div><strong>' + e.d + '</strong><small>' + e.m + '</small></div></div>' +
+      '<div class="info"><b>' + e.t + '</b><small>' + e.w + '</small></div>' +
+      '<button class="tg' + (on ? ' on' : '') + '" data-act="events" data-id="' + e.id + '">' + (on ? 'Registered ✓' : 'Register') + '</button></div>';
+  }
+  function clubRow(c) {
+    var on = data.clubs.indexOf(c.id) > -1;
+    return '<div class="row"><div class="day" style="background:' + c.c + '">' + c.e + '</div>' +
+      '<div class="info"><b>' + c.n + '</b><small>' + c.m + ' members</small></div>' +
+      '<button class="tg' + (on ? ' on' : '') + '" data-act="clubs" data-id="' + c.id + '">' + (on ? 'Joined ✓' : 'Join') + '</button></div>';
+  }
+  function noteRow(n) {
+    var on = data.notes.indexOf(n.id) > -1;
+    return '<div class="row"><div class="day" style="background:#e1d9ff">' + n.e + '</div>' +
+      '<div class="info"><b>' + n.t + '</b><small>' + n.s + '</small></div>' +
+      '<button class="tg' + (on ? ' on' : '') + '" data-act="notes" data-id="' + n.id + '">' + (on ? 'Saved ✓' : 'Save') + '</button></div>';
+  }
+
+  function render() {
+    document.querySelectorAll('[data-tab]').forEach(function (b) { b.classList.toggle('on', b.dataset.tab === tab); });
+    $('#sub').textContent = TITLES[tab];
+    var h = '';
+    if (tab === 'overview') {
+      var mine = EVENTS.filter(function (e) { return data.events.indexOf(e.id) > -1; });
+      var sugg = CLUBS.filter(function (c) { return data.clubs.indexOf(c.id) < 0; }).slice(0, 3);
+      h += '<div class="sgrid">' +
+        '<div class="sc" style="background:#ffe3ef"><b>' + data.events.length + '</b>Events registered</div>' +
+        '<div class="sc" style="background:#d5faea"><b>' + data.clubs.length + '</b>Clubs joined</div>' +
+        '<div class="sc" style="background:#fff3c9"><b>' + data.notes.length + '</b>Notes saved</div></div>';
+      h += '<div class="two"><div class="panel"><h3>Your events</h3>' +
+        (mine.length ? mine.map(evRow).join('') : '<p class="empty">No events yet. <button class="tg" data-go="events">Browse events</button></p>') +
+        '</div><div class="panel"><h3>Clubs for you</h3>' +
+        (sugg.length ? sugg.map(clubRow).join('') : '<p class="empty">You have joined every club. Nice!</p>') + '</div></div>';
+      h += '<div class="panel"><h3>Noticeboard</h3>' + NOTICES.map(function (n) { return '<div class="row"><div class="info">📌 ' + n + '</div></div>'; }).join('') + '</div>';
+    } else if (tab === 'events') {
+      h = '<div class="panel">' + EVENTS.map(evRow).join('') + '</div>';
+    } else if (tab === 'clubs') {
+      h = '<div class="cgrid">' + CLUBS.map(function (c) {
+        var on = data.clubs.indexOf(c.id) > -1;
+        return '<div class="cc" style="background:' + c.c + '"><div class="em">' + c.e + '</div><b>' + c.n + '</b><small>' + c.m + ' members</small>' +
+          '<button class="tg' + (on ? ' on' : '') + '" data-act="clubs" data-id="' + c.id + '">' + (on ? 'Joined ✓' : 'Join') + '</button></div>';
+      }).join('') + '</div>';
+    } else {
+      h = '<div class="panel">' + NOTES.map(noteRow).join('') + '</div>';
+    }
+    $('#tabbody').innerHTML = h;
+  }
+
+  $('#tabbody').addEventListener('click', function (e) {
+    var go = e.target.closest('[data-go]');
+    if (go) { tab = go.dataset.go; render(); return; }
+    var b = e.target.closest('[data-act]');
+    if (!b) return;
+    var arr = data[b.dataset.act], i = arr.indexOf(b.dataset.id);
+    if (i > -1) arr.splice(i, 1); else arr.push(b.dataset.id);
+    put('cc_data_' + get('cc_session', ''), data);
+    render();
+  });
+  document.querySelectorAll('[data-tab]').forEach(function (b) {
+    b.addEventListener('click', function () { tab = b.dataset.tab; render(); window.scrollTo(0, 0); });
+  });
+  $('#logout').addEventListener('click', function () {
+    try { localStorage.removeItem('cc_session'); } catch (e) {}
+    tab = 'overview';
+    location.hash = '';
+    route();
+  });
+
+  /* ---------- Landing page email box ---------- */
+  $('#go').addEventListener('click', function () {
+    var v = $('#email').value.trim(), m = $('#msg');
+    if (v.indexOf('@') < 1 || v.indexOf('.') < 0) { m.textContent = 'Please enter a valid email address.'; return; }
+    pending = v;
+    location.hash = 'signup';
+  });
+
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body>
+</html>
